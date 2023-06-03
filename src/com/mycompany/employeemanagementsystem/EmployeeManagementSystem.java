@@ -9,7 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.SQLOutput;
+// future database connectivity
+//import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -319,7 +320,7 @@ public class EmployeeManagementSystem {
 
     // plan to save inputs to file in the future
     private void loadEmployeesFromFile() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("employees.dat"))) {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("resources/employees.txt"))) {
             employees = (List<Employee>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading employees from file: " + e.getMessage());
@@ -328,7 +329,8 @@ public class EmployeeManagementSystem {
 
     // plan to save inputs to file in the future
     private void saveEmployeesToFile() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("employees.dat"))) {
+        try (ObjectOutputStream outputStream =
+                     new ObjectOutputStream(new FileOutputStream("resources/employees.txt"))) {
             outputStream.writeObject(employees);
         } catch (IOException e) {
             System.out.println("Error saving employees to file: " + e.getMessage());
@@ -337,7 +339,7 @@ public class EmployeeManagementSystem {
 
     // plan to save inputs to file in the future
     private void loadDepartmentsFromFile() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("departments.dat"))) {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("resources/departments.txt"))) {
             departments = (List<Department>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading departments from file: " + e.getMessage());
@@ -346,7 +348,8 @@ public class EmployeeManagementSystem {
 
     // plan to save inputs to file in the future
     private void saveDepartmentsToFile() {
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("departments.dat"))) {
+        try (ObjectOutputStream outputStream =
+                     new ObjectOutputStream(new FileOutputStream("resources/departments.txt"))) {
             outputStream.writeObject(departments);
         } catch (IOException e) {
             System.out.println("Error saving departments to file: " + e.getMessage());
