@@ -1,5 +1,8 @@
+import com.mycompany.employeemanagementsystem.EmployeeManagementSystem;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        EmployeeManagementSystem ems = new EmployeeManagementSystem();
+        ems.start();
     }
 }
