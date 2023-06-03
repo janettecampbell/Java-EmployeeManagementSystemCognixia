@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,11 +28,6 @@ public class EmployeeManagementSystem {
     }
 
     public void start() {
-        // Load employees from file
-        loadEmployeesFromFile();
-        // Load departments from file
-        loadDepartmentsFromFile();
-
         int choice;
         do {
             System.out.println("******** Employee Management System ********");
@@ -39,10 +35,10 @@ public class EmployeeManagementSystem {
             System.out.println("2. Update Employee Information");
             System.out.println("3. Remove Employee");
             System.out.println("4. List Employees");
-            System.out.println("5. Add Department (Bonus)");
-            System.out.println("6. Update Department Information (Bonus)");
-            System.out.println("7. Remove Department (Bonus)");
-            System.out.println("8. List Departments (Bonus)");
+            System.out.println("5. Add Department");
+            System.out.println("6. Update Department Information");
+            System.out.println("7. Remove Department");
+            System.out.println("8. List Departments");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
@@ -84,8 +80,6 @@ public class EmployeeManagementSystem {
             System.out.println();
         } while (choice != 0);
 
-        saveEmployeesToFile(); // Save employees to file
-        saveDepartmentsToFile(); // Save departments to file
     }
 
     private void addEmployee() {
@@ -98,7 +92,7 @@ public class EmployeeManagementSystem {
         int employeeId = scanner.nextInt();
         // consume newline character
         scanner.nextLine();
-        System.out.print("Enter date of employment: ");
+        System.out.print("Enter date of employment (month/day/year): ");
         String dateOfEmployment = scanner.nextLine();
         System.out.print("Enter salary: ");
         double salary = scanner.nextDouble();
@@ -111,7 +105,9 @@ public class EmployeeManagementSystem {
             Employee newEmployee = new Employee(firstName, lastName, employeeId, dateOfEmployment, salary, department);
             if (isEmployeeIdUnique(employeeId)) {
                 employees.add(newEmployee);
-                System.out.println("Employee added successfully!");
+                System.out.println("\n********************************");
+                System.out.println("* Employee added successfully! *");
+                System.out.println("********************************");
             } else {
                 throw new EmployeeManagementException("Employee ID already exists.");
             }
@@ -121,7 +117,7 @@ public class EmployeeManagementSystem {
     }
 
     private void updateEmployee() {
-        System.out.println("******** Update Employee Information ********");
+        System.out.println("\n******** Update Employee Information ********");
         System.out.print("Enter employee ID: ");
         int employeeId = scanner.nextInt();
         // consume newline character
@@ -133,30 +129,84 @@ public class EmployeeManagementSystem {
             return;
         }
 
-        System.out.print("Enter new first name: ");
-        String newFirstName = scanner.nextLine();
-        System.out.print("Enter new last name: ");
-        String newLastName = scanner.nextLine();
-        System.out.print("Enter new date of employment: ");
-        String newDateOfEmployment = scanner.nextLine();
-        System.out.print("Enter new salary: ");
-        double newSalary = scanner.nextDouble();
-        // consume newline character
-        scanner.nextLine();
-        System.out.print("Enter new department: ");
-        String newDepartment = scanner.nextLine();
+//        System.out.print("Enter new first name: ");
+//        String newFirstName = scanner.nextLine();
+//        System.out.print("Enter new last name: ");
+//        String newLastName = scanner.nextLine();
+//        System.out.print("Enter new date of employment (month/day/year): ");
+//        String newDateOfEmployment = scanner.nextLine();
+//        System.out.print("Enter new salary: ");
+//        double newSalary = scanner.nextDouble();
+//        // consume newline character
+//        scanner.nextLine();
+//        System.out.print("Enter new department: ");
+//        String newDepartment = scanner.nextLine();
+//
+//        employeeToUpdate.setFirstName(newFirstName);
+//        employeeToUpdate.setLastName(newLastName);
+//        employeeToUpdate.setDateOfEmployment(newDateOfEmployment);
+//        employeeToUpdate.setSalary(newSalary);
+//        employeeToUpdate.setDepartment(newDepartment);
+        int choice;
+        do {
+            System.out.println("\n******** Update Employee Information ********");
+            System.out.println("1. Update First Name");
+            System.out.println("2. Update Last Name");
+            System.out.println("3. Update Date of Employment");
+            System.out.println("4. Update Salary");
+            System.out.println("5. Update Department");
+            System.out.println("0. Main Menu");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
 
-        employeeToUpdate.setFirstName(newFirstName);
-        employeeToUpdate.setLastName(newLastName);
-        employeeToUpdate.setDateOfEmployment(newDateOfEmployment);
-        employeeToUpdate.setSalary(newSalary);
-        employeeToUpdate.setDepartment(newDepartment);
+            // consume newline character
+            scanner.nextLine();
 
-        System.out.println("Employee information updated successfully!");
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter new first name: ");
+                    String newFirstName = scanner.nextLine();
+                    employeeToUpdate.setFirstName(newFirstName);
+                    break;
+                case 2:
+                    System.out.print("Enter new last name: ");
+                    String newLastName = scanner.nextLine();
+                    employeeToUpdate.setLastName(newLastName);
+                    break;
+                case 3:
+                    System.out.print("Enter new date of employment (month/day/year): ");
+                    String newDateOfEmployment = scanner.nextLine();
+                    employeeToUpdate.setDateOfEmployment(newDateOfEmployment);
+                    break;
+                case 4:
+                    System.out.print("Enter new salary: ");
+                    double newSalary = scanner.nextDouble();
+                    employeeToUpdate.setSalary(newSalary);
+                    break;
+                case 5:
+                    System.out.print("Enter new department: ");
+                    String newDepartment = scanner.nextLine();
+                    employeeToUpdate.setDepartment(newDepartment);
+                    break;
+                case 0:
+                    System.out.println("Exiting Update Employee Information ...");
+                    start();
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+            System.out.println();
+        } while (choice != 0);
+
+
+
+        System.out.println("\n**********************************************");
+        System.out.println("* Employee information updated successfully! *");
+        System.out.println("**********************************************");
     }
 
     private void removeEmployee() {
-        System.out.println("******** Remove Employee ********");
+        System.out.println("\n******** Remove Employee ********");
         System.out.print("Enter employee ID: ");
         int employeeId = scanner.nextInt();
         scanner.nextLine(); // consume newline character
@@ -172,7 +222,7 @@ public class EmployeeManagementSystem {
     }
 
     private void listEmployees() {
-        System.out.println("******** List Employees ********");
+        System.out.println("\n******** List Employees ********");
         if (employees.isEmpty()) {
             System.out.println("No employees found.");
         } else {
@@ -183,7 +233,7 @@ public class EmployeeManagementSystem {
     }
 
     private void addDepartment() {
-        System.out.println("******** Add Department ********");
+        System.out.println("\n******** Add Department ********");
         System.out.print("Enter department name: ");
         String name = scanner.nextLine();
         System.out.print("Enter department budget: ");
@@ -199,7 +249,7 @@ public class EmployeeManagementSystem {
     }
 
     private void updateDepartment() {
-        System.out.println("******** Update Department Information ********");
+        System.out.println("\n******** Update Department Information ********");
         System.out.print("Enter department name: ");
         String name = scanner.nextLine();
 
@@ -223,7 +273,7 @@ public class EmployeeManagementSystem {
     }
 
     private void removeDepartment() {
-        System.out.println("******** Remove Department ********");
+        System.out.println("\n******** Remove Department ********");
         System.out.print("Enter department name: ");
         String name = scanner.nextLine();
 
@@ -238,7 +288,7 @@ public class EmployeeManagementSystem {
     }
 
     private void listDepartments() {
-        System.out.println("******** List Departments ********");
+        System.out.println("\n******** List Departments ********");
         if (departments.isEmpty()) {
             System.out.println("No departments found.");
         } else {
