@@ -28,6 +28,10 @@ public class EmployeeManagementSystem {
     }
 
     public void start() {
+        // plan to save inputs to file in the future
+//        loadEmployeesFromFile();
+//        loadDepartmentsFromFile();
+
         int choice;
         do {
             System.out.println("******** Employee Management System ********");
@@ -80,6 +84,10 @@ public class EmployeeManagementSystem {
             System.out.println();
         } while (choice != 0);
 
+        // plan to save inputs to file in the future
+//        saveEmployeesToFile();
+//        saveDepartmentsToFile();
+
     }
 
     private void addEmployee() {
@@ -129,24 +137,6 @@ public class EmployeeManagementSystem {
             return;
         }
 
-//        System.out.print("Enter new first name: ");
-//        String newFirstName = scanner.nextLine();
-//        System.out.print("Enter new last name: ");
-//        String newLastName = scanner.nextLine();
-//        System.out.print("Enter new date of employment (month/day/year): ");
-//        String newDateOfEmployment = scanner.nextLine();
-//        System.out.print("Enter new salary: ");
-//        double newSalary = scanner.nextDouble();
-//        // consume newline character
-//        scanner.nextLine();
-//        System.out.print("Enter new department: ");
-//        String newDepartment = scanner.nextLine();
-//
-//        employeeToUpdate.setFirstName(newFirstName);
-//        employeeToUpdate.setLastName(newLastName);
-//        employeeToUpdate.setDateOfEmployment(newDateOfEmployment);
-//        employeeToUpdate.setSalary(newSalary);
-//        employeeToUpdate.setDepartment(newDepartment);
         int choice;
         do {
             System.out.println("\n******** Update Employee Information ********");
@@ -209,7 +199,8 @@ public class EmployeeManagementSystem {
         System.out.println("\n******** Remove Employee ********");
         System.out.print("Enter employee ID: ");
         int employeeId = scanner.nextInt();
-        scanner.nextLine(); // consume newline character
+        // consume newline character
+        scanner.nextLine();
 
         Employee employeeToRemove = findEmployeeById(employeeId);
         if (employeeToRemove == null) {
@@ -238,7 +229,8 @@ public class EmployeeManagementSystem {
         String name = scanner.nextLine();
         System.out.print("Enter department budget: ");
         double budget = scanner.nextDouble();
-        scanner.nextLine(); // consume newline character
+        // consume newline character
+        scanner.nextLine();
         System.out.print("Enter department phone: ");
         String phone = scanner.nextLine();
 
@@ -325,6 +317,7 @@ public class EmployeeManagementSystem {
         return null;
     }
 
+    // plan to save inputs to file in the future
     private void loadEmployeesFromFile() {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("employees.dat"))) {
             employees = (List<Employee>) inputStream.readObject();
@@ -333,6 +326,7 @@ public class EmployeeManagementSystem {
         }
     }
 
+    // plan to save inputs to file in the future
     private void saveEmployeesToFile() {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("employees.dat"))) {
             outputStream.writeObject(employees);
@@ -341,6 +335,7 @@ public class EmployeeManagementSystem {
         }
     }
 
+    // plan to save inputs to file in the future
     private void loadDepartmentsFromFile() {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("departments.dat"))) {
             departments = (List<Department>) inputStream.readObject();
@@ -349,6 +344,7 @@ public class EmployeeManagementSystem {
         }
     }
 
+    // plan to save inputs to file in the future
     private void saveDepartmentsToFile() {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("departments.dat"))) {
             outputStream.writeObject(departments);
