@@ -206,7 +206,9 @@ public class EmployeeManagementSystem {
         }
 
         employees.remove(employeeToRemove);
-        System.out.println("Employee removed successfully!");
+        System.out.println("\n**********************************");
+        System.out.println("* Employee removed successfully! *");
+        System.out.println("**********************************");
     }
 
     private void listEmployees() {
@@ -234,7 +236,9 @@ public class EmployeeManagementSystem {
         Department newDepartment = new Department(name, budget, phone);
         departments.add(newDepartment);
 
-        System.out.println("Department added successfully!");
+        System.out.println("\n**********************************");
+        System.out.println("* Department added successfully! *");
+        System.out.println("**********************************");
     }
 
     private void updateDepartment() {
@@ -258,7 +262,9 @@ public class EmployeeManagementSystem {
         departmentToUpdate.setBudget(newBudget);
         departmentToUpdate.setPhone(newPhone);
 
-        System.out.println("Department information updated successfully!");
+        System.out.println("\n************************************************");
+        System.out.println("* Department information updated successfully! *");
+        System.out.println("************************************************");
     }
 
     private void removeDepartment() {
@@ -273,7 +279,9 @@ public class EmployeeManagementSystem {
         }
 
         departments.remove(departmentToRemove);
-        System.out.println("Department removed successfully!");
+        System.out.println("\n************************************");
+        System.out.println("* Department removed successfully! *");
+        System.out.println("************************************");
     }
 
     private void listDepartments() {
@@ -316,18 +324,13 @@ public class EmployeeManagementSystem {
 
     // plan to save inputs to file in the future
     private void loadEmployeesFromFile(String filename) {
-//        try (ObjectInputStream inputStream =
-//                     new ObjectInputStream(new FileInputStream("resources/employees.dat"))) {
-//            employees = (List<Employee>) inputStream.readObject();
-//        } catch (IOException | ClassNotFoundException e) {
-//            System.out.println("Error loading employees from file: " + e.getMessage());
-//        }
+
         try (Scanner scanner = new Scanner(new File(filename))){
 
             while (scanner.hasNextLine()) {
                 Employee employee = new Employee();
 
-                for (int i = 0; i < 4 && scanner.hasNextLine(); i++) {
+                for (int i = 0; i <= 4 && scanner.hasNextLine(); i++) {
                     String line = scanner.nextLine();
                     int index = line.indexOf(":");
 
@@ -364,12 +367,6 @@ public class EmployeeManagementSystem {
 
         // plan to save inputs to file in the future
     private void saveEmployeesToFile() {
-//        try (ObjectOutputStream outputStream =
-//                     new ObjectOutputStream(new FileOutputStream("resources/employees.dat"))) {
-//            outputStream.writeObject(employees);
-//        } catch (IOException e) {
-//            System.out.println("Error saving employees to file: " + e.getMessage());
-//        }
 
         try (FileWriter writer = new FileWriter("resources/employees.txt")){
             for (Employee employee : employees) {
