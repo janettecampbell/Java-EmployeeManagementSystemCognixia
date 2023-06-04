@@ -19,6 +19,7 @@ public class EmployeeManagementSystem {
     private List<Department> departments;
     private Scanner scanner;
 
+
     public EmployeeManagementSystem() {
         employees = new ArrayList<>();
         departments = new ArrayList<>();
@@ -26,9 +27,11 @@ public class EmployeeManagementSystem {
     }
 
     public void start() {
-        // plan to save inputs to file in the future
-        loadEmployeesFromFile("resources/employees.txt");
-        loadDepartmentsFromFile("resources/departments.txt");
+        String employeeFile = "resources/employees.txt";
+        String departmentFile = "resources/departments.txt";
+
+        loadEmployeesFromFile(employeeFile);
+        loadDepartmentsFromFile(departmentFile);
 
         int choice;
         do {
@@ -86,8 +89,8 @@ public class EmployeeManagementSystem {
         } while (choice != 0);
 
         // plan to save inputs to file in the future
-        saveEmployeesToFile();
-        saveDepartmentsToFile();
+        saveEmployeesToFile(employeeFile);
+        saveDepartmentsToFile(departmentFile);
 
     }
 
@@ -329,7 +332,7 @@ public class EmployeeManagementSystem {
 
     private boolean isDepartmentUnique (Department departmentName) {
         for (Department department : departments) {
-            if (department.getName().equals(departmentName))
+            if (department.getName().equals(departmentName.getName()))
                 return false;
         }
         return true;
@@ -384,9 +387,9 @@ public class EmployeeManagementSystem {
         }
     }
 
-    private void saveEmployeesToFile() {
+    private void saveEmployeesToFile(String fileName) {
 
-        try (FileWriter writer = new FileWriter("resources/employees.txt")){
+        try (FileWriter writer = new FileWriter(fileName)){
             for (Employee employee : employees) {
                 writer.write(employee + System.lineSeparator());
             }
@@ -432,9 +435,9 @@ public class EmployeeManagementSystem {
         }
     }
 
-    private void saveDepartmentsToFile() {
+    private void saveDepartmentsToFile(String fileName) {
 
-        try (FileWriter writer = new FileWriter("resources/departments.txt")){
+        try (FileWriter writer = new FileWriter(fileName)){
             for (Department department : departments) {
                 writer.write(department + System.lineSeparator());
             }
