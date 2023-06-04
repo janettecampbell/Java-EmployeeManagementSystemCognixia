@@ -4,11 +4,7 @@ import com.mycompany.employees.Employee;
 import com.mycompany.departments.Department;
 
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 // future database connectivity
 //import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -30,8 +26,8 @@ public class EmployeeManagementSystem {
 
     public void start() {
         // plan to save inputs to file in the future
-//        loadEmployeesFromFile();
-//        loadDepartmentsFromFile();
+        loadEmployeesFromFile("resources/employees.txt");
+        loadDepartmentsFromFile();
 
         int choice;
         do {
@@ -86,8 +82,8 @@ public class EmployeeManagementSystem {
         } while (choice != 0);
 
         // plan to save inputs to file in the future
-//        saveEmployeesToFile();
-//        saveDepartmentsToFile();
+        saveEmployeesToFile();
+        saveDepartmentsToFile();
 
     }
 
@@ -319,19 +315,66 @@ public class EmployeeManagementSystem {
     }
 
     // plan to save inputs to file in the future
-    private void loadEmployeesFromFile() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("resources/employees.txt"))) {
-            employees = (List<Employee>) inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+    private void loadEmployeesFromFile(String filename) {
+//        try (ObjectInputStream inputStream =
+//                     new ObjectInputStream(new FileInputStream("resources/employees.dat"))) {
+//            employees = (List<Employee>) inputStream.readObject();
+//        } catch (IOException | ClassNotFoundException e) {
+//            System.out.println("Error loading employees from file: " + e.getMessage());
+//        }
+        try (Scanner scanner = new Scanner(new File(filename))){
+
+            while (scanner.hasNextLine()) {
+                Employee employee = new Employee();
+
+                for (int i = 0; i < 4 && scanner.hasNextLine(); i++) {
+                    String line = scanner.nextLine();
+                    int index = line.indexOf(":");
+
+                    if (index != -1) {
+                        String key = line.substring(0, index).trim();
+                        String value = line.substring(index + 1).trim();
+
+                        System.out.println("Key: " + key + ", Value: " + value); // Debug statement
+
+                        switch (key) {
+                            case "Employee ID":
+                                employee.setEmployeeId(Integer.parseInt(value));
+                                break;
+                            case "Name":
+                                String[] nameParts = value.split(" ");
+                                employee.setFirstName(nameParts[0]);
+                                employee.setLastName(nameParts[nameParts.length - 1]);
+                                break;
+                            case "Department":
+                                employee.setDepartment(value);
+                                break;
+                            case "Salary":
+                                employee.setSalary(Double.parseDouble(value));
+                                break;
+                        }
+                    }
+                }
+                employees.add(employee);
+            }
+        } catch (IOException e) {
             System.out.println("Error loading employees from file: " + e.getMessage());
         }
     }
 
-    // plan to save inputs to file in the future
+        // plan to save inputs to file in the future
     private void saveEmployeesToFile() {
-        try (ObjectOutputStream outputStream =
-                     new ObjectOutputStream(new FileOutputStream("resources/employees.txt"))) {
-            outputStream.writeObject(employees);
+//        try (ObjectOutputStream outputStream =
+//                     new ObjectOutputStream(new FileOutputStream("resources/employees.dat"))) {
+//            outputStream.writeObject(employees);
+//        } catch (IOException e) {
+//            System.out.println("Error saving employees to file: " + e.getMessage());
+//        }
+
+        try (FileWriter writer = new FileWriter("resources/employees.txt")){
+            for (Employee employee : employees) {
+                writer.write(employee + System.lineSeparator());
+            }
         } catch (IOException e) {
             System.out.println("Error saving employees to file: " + e.getMessage());
         }
@@ -339,7 +382,7 @@ public class EmployeeManagementSystem {
 
     // plan to save inputs to file in the future
     private void loadDepartmentsFromFile() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("resources/departments.txt"))) {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("resources/departments.dat"))) {
             departments = (List<Department>) inputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading departments from file: " + e.getMessage());
@@ -349,7 +392,7 @@ public class EmployeeManagementSystem {
     // plan to save inputs to file in the future
     private void saveDepartmentsToFile() {
         try (ObjectOutputStream outputStream =
-                     new ObjectOutputStream(new FileOutputStream("resources/departments.txt"))) {
+                     new ObjectOutputStream(new FileOutputStream("resources/departments.dat"))) {
             outputStream.writeObject(departments);
         } catch (IOException e) {
             System.out.println("Error saving departments to file: " + e.getMessage());

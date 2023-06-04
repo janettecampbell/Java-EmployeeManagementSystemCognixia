@@ -17,6 +17,15 @@ public class Employee {
         this.department = department;
     }
 
+    public Employee() {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.employeeId = employeeId;
+        this.dateOfEmployment = dateOfEmployment;
+        this.salary = salary;
+        this.department = department;
+    }
+
     // Getters and Setters
 
     public String getFirstName() {
@@ -69,6 +78,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee ID: " + employeeId + "\nName: " + firstName + " " + lastName + "\nDepartment: " + department + "\nSalary: $" + salary + "\n\n";
+        return "Employee ID: " + employeeId + "\nName: " + firstName + " " + lastName + "\nDepartment: " + department + "\nSalary: " + salary + "\n\n";
     }
 }
