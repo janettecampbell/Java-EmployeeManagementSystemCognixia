@@ -11,6 +11,12 @@ public class Department {
         this.phone = phone;
     }
 
+    public Department() {
+        this.name = name;
+        this.budget = budget;
+        this.phone = phone;
+    }
+
     // Getters and Setters
 
     public String getName() {
@@ -39,6 +45,6 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department: " + name + "\nBudget: $" + budget + "\nPhone: " + phone + "\n\n";
+        return "Department: " + name + "\nBudget: " + budget + "\nPhone: " + phone + "\n";
     }
 }

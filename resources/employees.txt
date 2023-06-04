@@ -1,0 +1,15 @@
+Employee ID: 123
+Name: Julian Ross
+Department: Education
+Salary: 45000.0
+
+Employee ID: 456
+Name: Ada Morrison
+Department: Mechanic
+Salary: 60914.0
+
+Employee ID: 789
+Name: Daryl Adams
+Department: Economics
+Salary: 166503.0
+

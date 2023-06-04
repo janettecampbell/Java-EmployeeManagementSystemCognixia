@@ -1,0 +1,12 @@
+Department: Education
+Budget: 160000.0
+Phone: 2122458617
+
+Department: Mechanic
+Budget: 180000.0
+Phone: 2122458618
+
+Department: Economics
+Budget: 0.0
+Phone: null
+

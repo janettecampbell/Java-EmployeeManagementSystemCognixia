@@ -8,6 +8,7 @@ import java.io.*;
 // future database connectivity
 //import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,7 +28,7 @@ public class EmployeeManagementSystem {
     public void start() {
         // plan to save inputs to file in the future
         loadEmployeesFromFile("resources/employees.txt");
-        loadDepartmentsFromFile();
+        loadDepartmentsFromFile("resources/departments.txt");
 
         int choice;
         do {
@@ -42,8 +43,11 @@ public class EmployeeManagementSystem {
             System.out.println("8. List Departments");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-
+            try {
+                choice = scanner.nextInt();
+            } catch (NumberFormatException | InputMismatchException e) {
+                choice = 99;
+            }
             // consume newline character
             scanner.nextLine();
 
@@ -108,8 +112,12 @@ public class EmployeeManagementSystem {
 
         try {
             Employee newEmployee = new Employee(firstName, lastName, employeeId, dateOfEmployment, salary, department);
+            Department addDepartment = new Department(department, 0, null);
             if (isEmployeeIdUnique(employeeId)) {
                 employees.add(newEmployee);
+                if (isDepartmentUnique(addDepartment)) {
+                    departments.add(addDepartment);
+                }
                 System.out.println("\n********************************");
                 System.out.println("* Employee added successfully! *");
                 System.out.println("********************************");
@@ -234,11 +242,17 @@ public class EmployeeManagementSystem {
         String phone = scanner.nextLine();
 
         Department newDepartment = new Department(name, budget, phone);
-        departments.add(newDepartment);
+        if (isDepartmentUnique(newDepartment)) {
+            departments.add(newDepartment);
 
-        System.out.println("\n**********************************");
-        System.out.println("* Department added successfully! *");
-        System.out.println("**********************************");
+            System.out.println("\n**********************************");
+            System.out.println("* Department added successfully! *");
+            System.out.println("**********************************");
+        } else {
+            System.out.println("Department already exists.");
+        }
+
+
     }
 
     private void updateDepartment() {
@@ -313,6 +327,14 @@ public class EmployeeManagementSystem {
         return true;
     }
 
+    private boolean isDepartmentUnique (Department departmentName) {
+        for (Department department : departments) {
+            if (department.getName().equals(departmentName))
+                return false;
+        }
+        return true;
+    }
+
     private Department findDepartmentByName(String name) {
         for (Department department : departments) {
             if (department.getName().equals(name)) {
@@ -322,7 +344,6 @@ public class EmployeeManagementSystem {
         return null;
     }
 
-    // plan to save inputs to file in the future
     private void loadEmployeesFromFile(String filename) {
 
         try (Scanner scanner = new Scanner(new File(filename))){
@@ -337,8 +358,6 @@ public class EmployeeManagementSystem {
                     if (index != -1) {
                         String key = line.substring(0, index).trim();
                         String value = line.substring(index + 1).trim();
-
-                        System.out.println("Key: " + key + ", Value: " + value); // Debug statement
 
                         switch (key) {
                             case "Employee ID":
@@ -365,7 +384,6 @@ public class EmployeeManagementSystem {
         }
     }
 
-        // plan to save inputs to file in the future
     private void saveEmployeesToFile() {
 
         try (FileWriter writer = new FileWriter("resources/employees.txt")){
@@ -377,20 +395,49 @@ public class EmployeeManagementSystem {
         }
     }
 
-    // plan to save inputs to file in the future
-    private void loadDepartmentsFromFile() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("resources/departments.dat"))) {
-            departments = (List<Department>) inputStream.readObject();
-        } catch (IOException | ClassNotFoundException e) {
+    private void loadDepartmentsFromFile(String filename) {
+
+        try (Scanner scanner = new Scanner(new File(filename))){
+
+            while (scanner.hasNextLine()) {
+                Department department = new Department();
+
+                for (int i = 0; i <= 3 && scanner.hasNextLine(); i++) {
+                    String line = scanner.nextLine();
+                    int index = line.indexOf(":");
+
+                    if (index != -1) {
+                        String key = line.substring(0, index).trim();
+                        String value = line.substring(index + 1).trim();
+
+                        System.out.println("Key: " + key + ", Value: " + value); // Debug statement
+
+                        switch (key) {
+                            case "Department":
+                                department.setName(value);
+                                break;
+                            case "Budget":
+                                department.setBudget(Double.parseDouble(value));
+                                break;
+                            case "Phone":
+                                department.setPhone(value);
+                                break;
+                        }
+                    }
+                }
+                departments.add(department);
+            }
+        } catch (IOException e) {
             System.out.println("Error loading departments from file: " + e.getMessage());
         }
     }
 
-    // plan to save inputs to file in the future
     private void saveDepartmentsToFile() {
-        try (ObjectOutputStream outputStream =
-                     new ObjectOutputStream(new FileOutputStream("resources/departments.dat"))) {
-            outputStream.writeObject(departments);
+
+        try (FileWriter writer = new FileWriter("resources/departments.txt")){
+            for (Department department : departments) {
+                writer.write(department + System.lineSeparator());
+            }
         } catch (IOException e) {
             System.out.println("Error saving departments to file: " + e.getMessage());
         }

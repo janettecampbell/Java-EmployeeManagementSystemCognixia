@@ -1,5 +1,7 @@
 package com.mycompany.employees;
 
+import com.mycompany.employeemanagementsystem.EmployeeManagementException;
+
 public class Employee {
     private String firstName;
     private String lastName;
