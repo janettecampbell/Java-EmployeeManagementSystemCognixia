@@ -88,7 +88,6 @@ public class EmployeeManagementSystem {
             System.out.println();
         } while (choice != 0);
 
-        // plan to save inputs to file in the future
         saveEmployeesToFile(employeeFile);
         saveDepartmentsToFile(departmentFile);
 
