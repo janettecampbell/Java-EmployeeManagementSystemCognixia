@@ -91,6 +91,7 @@ public class EmployeeManagementSystem {
         saveEmployeesToFile(employeeFile);
         saveDepartmentsToFile(departmentFile);
 
+        scanner.close();
     }
 
     private void addEmployee() {
